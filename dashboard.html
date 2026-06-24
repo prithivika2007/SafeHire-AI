@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafeHire AI — Your Dashboard</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* SCORE CARD */
+.score-banner { background: var(--card-bg); border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 1.75rem 2rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 2.5rem; flex-wrap: wrap; }
+.score-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+.ring-wrap { position: relative; width: 90px; height: 90px; }
+.ring-wrap svg { transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: var(--primary-light); stroke-width: 7; }
+.ring-fill { fill: none; stroke-width: 7; stroke-linecap: round; transition: stroke-dashoffset 1.4s ease; }
+.ring-fill.blue { stroke: url(#blueGrad); }
+.ring-fill.pink { stroke: url(#pinkGrad); }
+.ring-fill.purple { stroke: url(#purpleGrad); }
+.ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring-pct { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--text); }
+.ring-name { font-size: 0.65rem; color: var(--text-muted); text-align: center; margin-top: 0.5rem; font-weight: 500; }
+.score-divider { width: 1px; height: 80px; background: var(--border); }
+.skill-section { flex: 1; min-width: 260px; }
+.skill-section-title { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+.skill-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 0.6rem; }
+.skill-bar-label { font-size: 0.78rem; color: var(--text); min-width: 90px; }
+.skill-bar-track { flex: 1; height: 6px; background: var(--primary-light); border-radius: 3px; overflow: hidden; }
+.skill-bar-fill { height: 100%; border-radius: 3px; transition: width 1.4s ease; }
+.skill-bar-fill.has { background: linear-gradient(90deg, var(--primary), #8B5CF6); }
+.skill-bar-fill.needs { background: linear-gradient(90deg, var(--pink), #F97316); }
+.skill-bar-pct { font-size: 0.75rem; color: var(--text-muted); min-width: 30px; text-align: right; }
+.tags-section { flex: 1; min-width: 220px; }
+.skill-tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.5rem; }
+.stag { font-size: 0.73rem; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
+.stag.have { background: var(--primary-light); color: var(--primary); border: 0.5px solid var(--primary-100); }
+.stag.need { background: var(--pink-light); color: var(--pink-dark); border: 0.5px solid #F0A8C4; }
+
+/* DASH CARDS */
+.dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.dash-card { background: var(--card-bg); border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 1.5rem; }
+.dash-card.full { grid-column: 1 / -1; }
+.dash-card-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.95rem; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.loading-state { color: var(--text-muted); font-size: 0.875rem; display: flex; align-items: center; gap: 8px; }
+.spinner { width: 16px; height: 16px; border: 2px solid var(--primary-light); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.result-content { font-size: 0.875rem; color: var(--text); line-height: 1.85; }
+.unique-badge { font-size: 0.65rem; background: var(--pink-light); color: var(--pink-dark); padding: 2px 6px; border-radius: 6px; }
+
+@media (max-width: 768px) {
+  .dash-grid { grid-template-columns: 1fr; }
+  .score-banner { gap: 1.5rem; }
+  .score-divider { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-mark"></div>
+    <span class="logo-text">Safe<span>Hire</span> AI</span>
+  </a>
+  <ul>
+    <li><button id="theme-toggle" class="theme-btn-round">💡</button></li>
+    <li><a href="onboarding.html">Edit profile</a></li>
+    <li><a href="index.html">Home</a></li>
+  </ul>
+</nav>
+
+<div class="dashboard-wrap">
+
+  <div class="dash-header">
+    <div class="dash-greeting" id="greeting">Welcome back 👋</div>
+    <div class="dash-sub" id="dash-sub">Your personalized career re-entry plan is being generated...</div>
+  </div>
+
+  <!-- VISUAL SCORE BANNER -->
+  <div class="score-banner">
+
+    <!-- Skill Readiness Ring -->
+    <div class="score-item">
+      <div class="ring-wrap">
+        <svg width="90" height="90" viewBox="0 0 90 90">
+          <defs>
+            <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#5B6EF5"/>
+              <stop offset="100%" style="stop-color:#8B5CF6"/>
+            </linearGradient>
+            <linearGradient id="pinkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#E8619A"/>
+              <stop offset="100%" style="stop-color:#F97316"/>
+            </linearGradient>
+            <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#8B5CF6"/>
+              <stop offset="100%" style="stop-color:#E8619A"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring-bg" cx="45" cy="45" r="38"/>
+          <circle class="ring-fill blue" id="ring-skill" cx="45" cy="45" r="38" stroke-dasharray="239" stroke-dashoffset="239"/>
+        </svg>
+        <div class="ring-label">
+          <span class="ring-pct" id="pct-skill">0%</span>
+        </div>
+      </div>
+      <div class="ring-name">Skill<br/>Readiness</div>
+    </div>
+
+    <!-- Resume Strength Ring -->
+    <div class="score-item">
+      <div class="ring-wrap">
+        <svg width="90" height="90" viewBox="0 0 90 90">
+          <circle class="ring-bg" cx="45" cy="45" r="38"/>
+          <circle class="ring-fill pink" id="ring-resume" cx="45" cy="45" r="38" stroke-dasharray="239" stroke-dashoffset="239"/>
+        </svg>
+        <div class="ring-label">
+          <span class="ring-pct" id="pct-resume">0%</span>
+        </div>
+      </div>
+      <div class="ring-name">Resume<br/>Strength</div>
+    </div>
+
+    <!-- Confidence Ring -->
+    <div class="score-item">
+      <div class="ring-wrap">
+        <svg width="90" height="90" viewBox="0 0 90 90">
+          <circle class="ring-bg" cx="45" cy="45" r="38"/>
+          <circle class="ring-fill purple" id="ring-conf" cx="45" cy="45" r="38" stroke-dasharray="239" stroke-dashoffset="239"/>
+        </svg>
+        <div class="ring-label">
+          <span class="ring-pct" id="pct-conf">0%</span>
+        </div>
+      </div>
+      <div class="ring-name">Interview<br/>Confidence</div>
+    </div>
+
+    <div class="score-divider"></div>
+
+    <!-- Skill Bars -->
+    <div class="skill-section">
+      <div class="skill-section-title">Skills breakdown</div>
+      <div id="skill-bars">
+        <div class="loading-state"><div class="spinner"></div> Loading...</div>
+      </div>
+    </div>
+
+    <div class="score-divider"></div>
+
+    <!-- Skill Tags -->
+    <div class="tags-section">
+      <div class="skill-section-title">Your skills</div>
+      <div id="skill-tags-have" class="skill-tag-row"></div>
+      <div class="skill-section-title" style="margin-top:0.85rem;">To learn next</div>
+      <div id="skill-tags-need" class="skill-tag-row"></div>
+    </div>
+
+  </div>
+
+  <!-- 9 FEATURE RESULT CARDS -->
+  <div class="dash-grid">
+
+    <div class="dash-card">
+      <div class="dash-card-title"><span class="icon">📄</span> Resume Gap Analyzer</div>
+      <div id="result-resume-gap"><div class="loading-state"><div class="spinner"></div> Analyzing your resume...</div></div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-title"><span class="icon">🗺️</span> Personalized Career Roadmap</div>
+      <div id="result-roadmap"><div class="loading-state"><div class="spinner"></div> Building your roadmap...</div></div>
+    </div>
+
+    <div class="dash-card full">
+      <div class="dash-card-title"><span class="icon">💼</span> Returnship Finder — Companies for You</div>
+      <div id="result-returnship"><div class="loading-state"><div class="spinner"></div> Finding returnship matches...</div></div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-title"><span class="icon">🎤</span> AI Interview Coach</div>
+      <div id="result-interview"><div class="loading-state"><div class="spinner"></div> Preparing your interview plan...</div></div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-title"><span class="icon">📊</span> Confidence Booster</div>
+      <div id="result-confidence"><div class="loading-state"><div class="spinner"></div> Crafting your boost...</div></div>
+    </div>
+
+    <div class="dash-card full">
+      <div class="dash-card-title"><span class="icon">🤝</span> Community & Mentorship Matches</div>
+      <div id="result-community"><div class="loading-state"><div class="spinner"></div> Finding your people...</div></div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-title"><span class="icon">🧠</span> Emotional Readiness Check <span class="unique-badge">Unique</span></div>
+      <div id="result-emotional"><div class="loading-state"><div class="spinner"></div> Checking your readiness...</div></div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-title"><span class="icon">⏱️</span> Break Duration Intelligence <span class="unique-badge">Unique</span></div>
+      <div id="result-duration"><div class="loading-state"><div class="spinner"></div> Calibrating for your break...</div></div>
+    </div>
+
+    <div class="dash-card full">
+      <div class="dash-card-title"><span class="icon">🛠️</span> AI Skill Sandbox Simulator <span class="unique-badge">Unique</span></div>
+      <div id="result-sandbox"><div class="loading-state"><div class="spinner"></div> Simulating skill upgrade paths...</div></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Theme
+if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+});
+
+// User data
+const u = JSON.parse(localStorage.getItem('safehire_user') || '{}');
+if (u.name) {
+  document.getElementById('greeting').textContent = `Welcome, ${u.name} 👋`;
+  document.getElementById('dash-sub').textContent = `Your personalized career re-entry plan for → ${u.targetRole || 'your target role'}`;
+}
+
+// ── SCORE CALCULATION ──────────────────────────────────────────
+function calcScores() {
+  // Skill Readiness: based on number of skills + break duration
+  const skillCount = u.currentSkills ? u.currentSkills.split(',').filter(s => s.trim()).length : 0;
+  const breakPenalty = { 'Less than 6 months': 0, '6 months – 1 year': 5, '1 – 2 years': 10, '2 – 4 years': 18, '4 – 7 years': 26, 'More than 7 years': 35 };
+  const penalty = breakPenalty[u.breakDuration] || 15;
+  const skillScore = Math.min(90, Math.max(30, 40 + skillCount * 7 - penalty));
+
+  // Resume Strength: based on info completeness
+  let resumeScore = 40;
+  if (u.prevRole) resumeScore += 15;
+  if (u.industry) resumeScore += 10;
+  if (u.breakReasons) resumeScore += 10;
+  if (u.extra && u.extra.length > 20) resumeScore += 10;
+  resumeScore = Math.min(92, resumeScore);
+
+  // Confidence: inversely based on concerns selected
+  const concernCount = u.concerns ? u.concerns.split(',').filter(s => s.trim()).length : 0;
+  const confScore = Math.min(85, Math.max(35, 80 - concernCount * 8));
+
+  return { skillScore, resumeScore, confScore };
+}
+
+function animateRing(id, pctId, score) {
+  const circumference = 239;
+  const el = document.getElementById(id);
+  const pctEl = document.getElementById(pctId);
+  const offset = circumference - (score / 100) * circumference;
+  setTimeout(() => {
+    el.style.strokeDashoffset = offset;
+    let current = 0;
+    const iv = setInterval(() => {
+      current++;
+      pctEl.textContent = current + '%';
+      if (current >= score) clearInterval(iv);
+    }, 1400 / score);
+  }, 300);
+}
+
+function renderSkillBars() {
+  const skills = u.currentSkills ? u.currentSkills.split(',').map(s => s.trim()).filter(Boolean) : [];
+  const needSkills = ['Data Analysis', 'Communication', 'Excel', 'Project Mgmt', 'Python'];
+  const container = document.getElementById('skill-bars');
+  if (!skills.length) { container.innerHTML = '<div style="font-size:0.8rem;color:var(--text-muted)">Add your skills in the form to see breakdown.</div>'; return; }
+  container.innerHTML = skills.slice(0, 4).map(skill => {
+    const pct = Math.floor(Math.random() * 30 + 60);
+    return `<div class="skill-bar-row">
+      <span class="skill-bar-label">${skill.slice(0,14)}</span>
+      <div class="skill-bar-track"><div class="skill-bar-fill has" style="width:0%" data-target="${pct}"></div></div>
+      <span class="skill-bar-pct">${pct}%</span>
+    </div>`;
+  }).join('') + needSkills.slice(0, 2).map(skill => {
+    const pct = Math.floor(Math.random() * 25 + 20);
+    return `<div class="skill-bar-row">
+      <span class="skill-bar-label">${skill}</span>
+      <div class="skill-bar-track"><div class="skill-bar-fill needs" style="width:0%" data-target="${pct}"></div></div>
+      <span class="skill-bar-pct">${pct}%</span>
+    </div>`;
+  }).join('');
+
+  setTimeout(() => {
+    document.querySelectorAll('.skill-bar-fill[data-target]').forEach(bar => {
+      bar.style.width = bar.dataset.target + '%';
+    });
+  }, 400);
+}
+
+function renderSkillTags() {
+  const skills = u.currentSkills ? u.currentSkills.split(',').map(s => s.trim()).filter(Boolean) : [];
+  const needMap = { 'Technology & Software': ['Docker', 'AWS', 'React'], 'Finance & Banking': ['Power BI', 'Bloomberg', 'SQL'], 'Healthcare & Medicine': ['Epic EHR', 'Data Analysis', 'HIPAA'], 'Marketing & Communications': ['HubSpot', 'SEO', 'Canva'], 'Education': ['LMS Tools', 'Curriculum Design'], 'Engineering': ['AutoCAD', 'Agile', 'Python'] };
+  const needSkills = needMap[u.industry] || ['Power BI', 'Agile', 'Python'];
+
+  const haveEl = document.getElementById('skill-tags-have');
+  const needEl = document.getElementById('skill-tags-need');
+  haveEl.innerHTML = (skills.length ? skills.slice(0, 5) : ['Your skills']).map(s => `<span class="stag have">${s} ✓</span>`).join('');
+  needEl.innerHTML = needSkills.map(s => `<span class="stag need">${s} →</span>`).join('');
+}
+
+// Run visuals
+const { skillScore, resumeScore, confScore } = calcScores();
+animateRing('ring-skill', 'pct-skill', skillScore);
+animateRing('ring-resume', 'pct-resume', resumeScore);
+animateRing('ring-conf', 'pct-conf', confScore);
+renderSkillBars();
+renderSkillTags();
+
+// ── AI CALLS ───────────────────────────────────────────────────
+const context = `Name: ${u.name||'User'}, Previous role: ${u.prevRole||'not specified'}, Industry: ${u.industry||'not specified'}, Break duration: ${u.breakDuration||'not specified'}, Break reasons: ${u.breakReasons||'not specified'}, Current skills: ${u.currentSkills||'not specified'}, Target role: ${u.targetRole||'not specified'}, Timeline: ${u.timeline||'not specified'}, Concerns: ${u.concerns||'not specified'}, Extra: ${u.extra||'none'}`;
+
+async function callClaude(prompt, resultId) {
+  const el = document.getElementById(resultId);
+  try {
+    const res = await fetch('http://localhost:3000/api/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await res.json();
+    const text = data.content?.find(b => b.type === 'text')?.text || 'No response received.';
+    el.innerHTML = `<div class="result-content">${text.replace(/\n/g, '<br/>')}</div>`;
+  } catch (err) {
+    el.innerHTML = `<div class="result-content" style="color:var(--pink)">⚠️ ${err.message} — proxy server not running yet.</div>`;
+  }
+}
+
+callClaude(`Career counselor for women returning to work. Profile: ${context}. Identify top 5 skill gaps for their target role, suggest one specific resource per gap. Concise, actionable, plain text only.`, 'result-resume-gap');
+callClaude(`Career coach. Profile: ${context}. Create a step-by-step roadmap with 5-6 milestones and timeframes. Consider break duration. Motivating and specific. Plain text only.`, 'result-roadmap');
+callClaude(`Returnship specialist. Profile: ${context}. Recommend 5-6 companies with returnship programs suited to their background. For each: program name, roles covered, one application tip. Plain text only.`, 'result-returnship');
+callClaude(`AI interview coach for career returners. Profile: ${context}. Give: (1) 3 likely interview questions about their career break with ideal answer frameworks, (2) One confidence tip for their concerns. Practical and warm. Plain text only.`, 'result-interview');
+callClaude(`Supportive career mentor. Profile: ${context}. Write a short personalized motivational message (4-5 sentences) addressing their specific concerns. Warm, real, not generic. Plain text only.`, 'result-confidence');
+callClaude(`Community curator for women returning to work. Profile: ${context}. Recommend: (1) 2-3 online communities relevant to their industry, (2) What kind of mentor to look for and where, (3) One peer support action this week. Plain text only.`, 'result-community');
+callClaude(`Emotional wellbeing coach for career re-entry. Profile: ${context}. Give: (1) Emotional challenges they likely face based on break and concerns, (2) One key mindset shift, (3) One confidence-building action this week. Empathetic and practical. Plain text only.`, 'result-emotional');
+callClaude(`Career re-entry specialist. Profile: ${context}. Based on their break duration of "${u.breakDuration||'unspecified'}": (1) How this break length affects re-entry, (2) What makes their situation unique, (3) Two strategies tailored to their exact break length. Plain text only.`, 'result-duration');
+callClaude(`Skills modernization expert. Profile: ${context}. Analyze skills (${u.currentSkills||'not specified'}): (1) Which are still highly relevant in 2026 and why, (2) Which need updating and how, (3) Two modern tools that make them more hireable now. Plain text only.`, 'result-sandbox');
+</script>
+</body>
+</html>

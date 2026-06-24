@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafeHire AI — Tell us your story</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-mark"></div>
+    <span class="logo-text">Safe<span>Hire</span> AI</span>
+  </a>
+  <ul>
+    <li><button id="theme-toggle" class="theme-btn-round" onclick="toggleTheme()">💡</button></li>
+    <li><a href="index.html">← Back to home</a></li>
+  </ul>
+</nav>
+
+<div class="onboarding-wrap">
+  <div class="onboarding-card">
+
+    <div class="progress-steps">
+      <div class="step-dot active" id="dot-1"></div>
+      <div class="step-dot" id="dot-2"></div>
+      <div class="step-dot" id="dot-3"></div>
+      <div class="step-dot" id="dot-4"></div>
+    </div>
+
+   <!-- STEP 1 -->
+    <div class="step-page active" id="page-1">
+      <div class="step-label">Step 1 of 4</div>
+      <div class="step-question">Let's start with you 👋</div>
+      <div class="step-hint">Tell us a bit about yourself so we can personalise everything.</div>
+      
+      <div class="form-group">
+        <label>Your name</label>
+        <input type="text" id="name" placeholder="e.g. Priya Krishnan"/>
+      </div>
+      
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" id="email" placeholder="you@email.com"/>
+      </div>
+      
+      <!-- Resume Upload Component -->
+      <div class="form-group">
+        <label>Attach your resume (Optional)</label>
+        <div class="file-upload-wrapper">
+          <input type="file" id="resume-file" accept=".pdf,.doc,.docx" style="display: none;" onchange="updateFileName(this)"/>
+          <button type="button" class="btn-secondary" style="width: 100%; padding: 0.6rem;" onclick="document.getElementById('resume-file').click()">📎 Choose File</button>
+          <div id="file-name-display" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.4rem; text-align: center;">No file chosen</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Previous job title</label>
+        <input type="text" id="prev-role" placeholder="e.g. Software Engineer, Data Analyst"/>
+      </div>
+      
+      <div class="form-group">
+        <label>Previous industry</label>
+        <select id="industry">
+          <option value="">Select your industry</option>
+          <option>Technology & Software</option>
+          <option>Finance & Banking</option>
+          <option>Healthcare & Medicine</option>
+          <option>Education</option>
+          <option>Marketing & Communications</option>
+          <option>Engineering</option>
+          <option>Operations & Management</option>
+          <option>Other</option>
+        </select>
+      </div>
+      
+      <div class="form-nav">
+        <div></div>
+        <button class="btn-primary" onclick="goTo(2)">Continue →</button>
+      </div>
+    </div>
+    
+    <!-- STEP 2 -->
+    <div class="step-page" id="page-2">
+      <div class="step-label">Step 2 of 4</div>
+      <div class="step-question">About your career break</div>
+      <div class="step-hint">There's no judgment here — this helps us tailor your roadmap precisely.</div>
+      <div class="form-group">
+        <label>How long was your career break?</label>
+        <select id="break-duration">
+          <option value="">Select duration</option>
+          <option>Less than 6 months</option>
+          <option>6 months – 1 year</option>
+          <option>1 – 2 years</option>
+          <option>2 – 4 years</option>
+          <option>4 – 7 years</option>
+          <option>More than 7 years</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Reason for break (select all that apply)</label>
+        <div class="chips">
+          <span class="chip" onclick="toggleChip(this,'break-reason')">Maternity / Childcare</span>
+          <span class="chip" onclick="toggleChip(this,'break-reason')">Family caregiving</span>
+          <span class="chip" onclick="toggleChip(this,'break-reason')">Health reasons</span>
+          <span class="chip" onclick="toggleChip(this,'break-reason')">Relocation</span>
+          <span class="chip" onclick="toggleChip(this,'break-reason')">Education</span>
+          <span class="chip" onclick="toggleChip(this,'break-reason')">Personal choice</span>
+          <span class="chip" onclick="toggleChip(this,'break-reason')">Other</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Your current skills (comma-separated)</label>
+        <input type="text" id="current-skills" placeholder="e.g. Python, SQL, Excel, Project Management"/>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goTo(1)">← Back</button>
+        <button class="btn-primary" onclick="goTo(3)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-page" id="page-3">
+      <div class="step-label">Step 3 of 4</div>
+      <div class="step-question">Where do you want to go?</div>
+      <div class="step-hint">Your target role shapes everything — your roadmap, resume, and interview prep.</div>
+      <div class="form-group">
+        <label>Target job title</label>
+        <input type="text" id="target-role" placeholder="e.g. Data Analyst, Product Manager, UX Designer"/>
+      </div>
+      <div class="form-group">
+        <label>Preferred work type</label>
+        <div class="chips">
+          <span class="chip" onclick="toggleChip(this,'work-type')">Full-time</span>
+          <span class="chip" onclick="toggleChip(this,'work-type')">Part-time</span>
+          <span class="chip" onclick="toggleChip(this,'work-type')">Remote</span>
+          <span class="chip" onclick="toggleChip(this,'work-type')">Hybrid</span>
+          <span class="chip" onclick="toggleChip(this,'work-type')">Returnship program</span>
+          <span class="chip" onclick="toggleChip(this,'work-type')">Freelance / Gig</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Timeline — when do you want to be working again?</label>
+        <select id="timeline">
+          <option value="">Select timeline</option>
+          <option>As soon as possible (1–3 months)</option>
+          <option>Within 3–6 months</option>
+          <option>6 months – 1 year</option>
+          <option>Just exploring for now</option>
+        </select>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goTo(2)">← Back</button>
+        <button class="btn-primary" onclick="goTo(4)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step-page" id="page-4">
+      <div class="step-label">Step 4 of 4</div>
+      <div class="step-question">One last thing 💬</div>
+      <div class="step-hint">This helps our AI understand what you need most right now.</div>
+      <div class="form-group">
+        <label>What's your biggest concern about returning to work?</label>
+        <div class="chips">
+          <span class="chip" onclick="toggleChip(this,'concern')">My skills feel outdated</span>
+          <span class="chip" onclick="toggleChip(this,'concern')">Resume gap looks bad</span>
+          <span class="chip" onclick="toggleChip(this,'concern')">Low confidence</span>
+          <span class="chip" onclick="toggleChip(this,'concern')">Don't know where to apply</span>
+          <span class="chip" onclick="toggleChip(this,'concern')">Interview anxiety</span>
+          <span class="chip" onclick="toggleChip(this,'concern')">Work-life balance</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Anything else you'd like SafeHire AI to know? <span style="color:var(--gray-400)">(optional)</span></label>
+        <textarea id="extra" rows="3" placeholder="Tell us anything — your previous achievements, worries, or goals..."></textarea>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="goTo(3)">← Back</button>
+        <button class="btn-primary" onclick="submitForm()">Generate my roadmap →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// --- FORCE THEME ON REFRESH/LOAD ---
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark-mode');
+}
+
+// --- COMPREHENSIVE VIEWPORT RESET ---
+function applyPageVisibility(activeStep) {
+  document.querySelectorAll('.step-page').forEach((page, index) => {
+    const stepNum = index + 1;
+    if (stepNum === activeStep) {
+      page.style.setProperty('display', 'block', 'important');
+      page.classList.add('active');
+    } else {
+      page.style.setProperty('display', 'none', 'important');
+      page.classList.remove('active');
+    }
+  });
+}
+
+function goTo(step) {
+  applyPageVisibility(step);
+  
+  document.querySelectorAll('.step-dot').forEach((d, i) => {
+    d.classList.remove('active', 'done');
+    if (i + 1 < step) d.classList.add('done');
+    if (i + 1 === step) d.classList.add('active');
+  });
+}
+
+function toggleChip(el, group) {
+  el.classList.toggle('selected');
+}
+
+function getSelectedChips(group) {
+  const chips = document.querySelectorAll(`.chip.selected`);
+  return Array.from(chips).map(c => c.textContent).join(', ');
+}
+
+function updateFileName(input) {
+  const display = document.getElementById('file-name-display');
+  if (input.files && input.files.length > 0) {
+    display.textContent = `Selected: ${input.files[0].name}`;
+  } else {
+    display.textContent = "No file chosen";
+  }
+}
+
+function submitForm() {
+  const userData = {
+    name: document.getElementById('name').value || 'User',
+    email: document.getElementById('email').value,
+    prevRole: document.getElementById('prev-role').value,
+    industry: document.getElementById('industry').value,
+    breakDuration: document.getElementById('break-duration').value,
+    currentSkills: document.getElementById('current-skills').value,
+    targetRole: document.getElementById('target-role').value,
+    timeline: document.getElementById('timeline').value,
+    extra: document.getElementById('extra').value,
+    breakReasons: getSelectedChips('break-reason'),
+    workType: getSelectedChips('work-type'),
+    concerns: getSelectedChips('concern')
+  };
+  localStorage.setItem('safehire_user', JSON.stringify(userData));
+  window.location.href = 'dashboard.html';
+}
+
+function toggleTheme() {
+  document.body.classList.toggle("dark-mode");
+  localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+}
+// Ensure layout rules compile strictly on absolute execution
+document.addEventListener("DOMContentLoaded", () => {
+  applyPageVisibility(1);
+});
+</script>
+</body>
+</html>
