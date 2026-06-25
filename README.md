@@ -9,6 +9,7 @@ Built for **SheBuilds Chennai Hack — Code & Challenge 3.0**
 ## 🌟 What is SafeHire AI?
 
 SafeHire AI is a web platform that helps women confidently return to the workforce after career breaks — whether due to maternity, caregiving, health, or personal reasons. It provides personalized AI-powered guidance, skill roadmaps, resume support, and returnship-ready job opportunities — all in one place.
+<<<<<<< HEAD
 
 ---
 
@@ -123,5 +124,3 @@ SafeHire-AI/
 ├── script.js           # Reference/test file for AI logic experiments
 └── README.md
 ```
-
----
