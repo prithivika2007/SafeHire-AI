@@ -178,15 +178,7 @@
       <div id="result-interview"><div class="loading-state"><div class="spinner"></div> Preparing your interview plan...</div></div>
     </div>
 
-    <div class="dash-card">
-      <div class="dash-card-title"><span class="icon">📊</span> Confidence Booster</div>
-      <div id="result-confidence"><div class="loading-state"><div class="spinner"></div> Crafting your boost...</div></div>
-    </div>
-
-    <div class="dash-card full">
-      <div class="dash-card-title"><span class="icon">🤝</span> Community & Mentorship Matches</div>
-      <div id="result-community"><div class="loading-state"><div class="spinner"></div> Finding your people...</div></div>
-    </div>
+  
 
     <div class="dash-card">
       <div class="dash-card-title"><span class="icon">🧠</span> Emotional Readiness Check <span class="unique-badge">Unique</span></div>
@@ -196,11 +188,6 @@
     <div class="dash-card">
       <div class="dash-card-title"><span class="icon">⏱️</span> Break Duration Intelligence <span class="unique-badge">Unique</span></div>
       <div id="result-duration"><div class="loading-state"><div class="spinner"></div> Calibrating for your break...</div></div>
-    </div>
-
-    <div class="dash-card full">
-      <div class="dash-card-title"><span class="icon">🛠️</span> AI Skill Sandbox Simulator <span class="unique-badge">Unique</span></div>
-      <div id="result-sandbox"><div class="loading-state"><div class="spinner"></div> Simulating skill upgrade paths...</div></div>
     </div>
 
   </div>
@@ -330,11 +317,8 @@ callClaude(`Career counselor for women returning to work. Profile: ${context}. I
 callClaude(`Career coach. Profile: ${context}. Create a step-by-step roadmap with 5-6 milestones and timeframes. Consider break duration. Motivating and specific. Plain text only.`, 'result-roadmap');
 callClaude(`Returnship specialist. Profile: ${context}. Recommend 5-6 companies with returnship programs suited to their background. For each: program name, roles covered, one application tip. Plain text only.`, 'result-returnship');
 callClaude(`AI interview coach for career returners. Profile: ${context}. Give: (1) 3 likely interview questions about their career break with ideal answer frameworks, (2) One confidence tip for their concerns. Practical and warm. Plain text only.`, 'result-interview');
-callClaude(`Supportive career mentor. Profile: ${context}. Write a short personalized motivational message (4-5 sentences) addressing their specific concerns. Warm, real, not generic. Plain text only.`, 'result-confidence');
-callClaude(`Community curator for women returning to work. Profile: ${context}. Recommend: (1) 2-3 online communities relevant to their industry, (2) What kind of mentor to look for and where, (3) One peer support action this week. Plain text only.`, 'result-community');
 callClaude(`Emotional wellbeing coach for career re-entry. Profile: ${context}. Give: (1) Emotional challenges they likely face based on break and concerns, (2) One key mindset shift, (3) One confidence-building action this week. Empathetic and practical. Plain text only.`, 'result-emotional');
 callClaude(`Career re-entry specialist. Profile: ${context}. Based on their break duration of "${u.breakDuration||'unspecified'}": (1) How this break length affects re-entry, (2) What makes their situation unique, (3) Two strategies tailored to their exact break length. Plain text only.`, 'result-duration');
-callClaude(`Skills modernization expert. Profile: ${context}. Analyze skills (${u.currentSkills||'not specified'}): (1) Which are still highly relevant in 2026 and why, (2) Which need updating and how, (3) Two modern tools that make them more hireable now. Plain text only.`, 'result-sandbox');
 </script>
 </body>
 </html>
