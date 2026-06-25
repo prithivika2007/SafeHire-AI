@@ -1,3 +1,332 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SafeHire AI — Career Re-entry Assistant for Women</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
 <body>
-    <script src="./script.js"></script>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-mark"></div>
+    <span class="logo-text">Safe<span>Hire</span> AI</span>
+  </a>
+  <ul>
+    <!-- Moved theme toggle before Features with a round icon -->
+    <li><button id="theme-toggle" class="theme-btn-round" aria-label="Toggle Theme">💡</button></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#sdg">Our Mission</a></li>
+    <li><a href="onboarding.html" class="nav-cta">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <h1 class="hero-title">Your career break<br/>is not a <em>setback</em>.<br/>It's a comeback.</h1>
+    <p class="hero-sub">SafeHire AI helps women return to the workforce with personalized skill roadmaps, AI-powered resume support, and returnship-ready opportunities — all in one place.</p>
+    <div class="hero-actions">
+      <a href="onboarding.html" class="btn-primary">Start your comeback →</a>
+      <a href="#features" class="btn-secondary">See how it works</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">47%</div>
+        <div class="stat-label">women struggle to return</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">5M+</div>
+        <div class="stat-label">career break women in India</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">AI</div>
+        <div class="stat-label">powered guidance</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="card-top">
+        <div class="avatar">PK</div>
+        <div>
+          <div class="card-name">Priya Krishnan</div>
+          <div class="card-role">Data Analyst · 4yr break</div>
+        </div>
+      </div>
+      <div class="progress-label"><span>Skill readiness</span><span id="pct">0%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="bar" style="width:0%"></div></div>
+      <div class="progress-label"><span>Resume strength</span><span>82%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:82%"></div></div>
+      <div class="progress-label"><span>Interview confidence</span><span>68%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:68%"></div></div>
+      <div class="skill-tags">
+        <span class="tag">Python ✓</span>
+        <span class="tag">SQL ✓</span>
+        <span class="tag new">Power BI →</span>
+        <span class="tag new">Excel Cert →</span>
+      </div>
+    </div>
+    <div class="floating-pill pill-1"><span class="pill-dot"></span> 3 returnship matches found</div>
+    <div class="floating-pill pill-2"><span class="pill-dot" style="background:#D85A30"></span> Resume gap rewritten ✓</div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-eyebrow">What SafeHire AI does</div>
+  <h2 class="section-title">Everything you need to<br/>restart with confidence</h2>
+  <p class="section-sub">Click on any tool flashcard below to see its instant action insight!</p>
+  
+  <div class="features-grid">
+
+    <!-- Card 1 -->
+    <div class="feature-card" onclick="toggleCard(this)">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="feature-icon">📄</div>
+          <div class="feature-title">Resume Gap Analyzer</div>
+          <div class="feature-desc">Upload your resume. Our AI identifies your skills, highlights what's missing, and rewrites your career break narrative into a strength — not an apology.</div>
+        
+        </div>
+        <div class="card-back">
+          <div class="back-title">✨ Action Preview</div>
+          <p class="back-desc">Converts "Unemployed 2022-2026" into "Cross-functional Leadership & Project Management during full-time family care administration."</p>
+          <span class="action-hint">Click to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="feature-card" onclick="toggleCard(this)">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="feature-icon">🗺️</div>
+          <div class="feature-title">Personalized Career Roadmap</div>
+          <div class="feature-desc">Not generic advice. Based on your break duration and target role, AI builds a step-by-step learning plan — courses, projects, certifications, in the right order.</div>
+          
+        </div>
+        <div class="card-back">
+          <div class="back-title">✨ Action Preview</div>
+          <p class="back-desc">Generates a hyper-focused 4-week to 3-month pathway highlighting core certifications that bridge historical tech gaps instantly.</p>
+          <span class="action-hint">Click to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="feature-card" onclick="toggleCard(this)">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="feature-icon">💼</div>
+          <div class="feature-title">Returnship Finder</div>
+          <div class="feature-desc">A curated job board of companies with active returnship programs, flexible roles, and remote opportunities — filtered for women returning after breaks.</div>
+          
+        </div>
+        <div class="card-back">
+          <div class="back-title">✨ Action Preview</div>
+          <p class="back-desc">Instantly matches you to vetted tracks like the Accenture Back to Work or Amazon Returnships ecosystem in one central database.</p>
+          <span class="action-hint">Click to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="feature-card" onclick="toggleCard(this)">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="feature-icon">🎤</div>
+          <div class="feature-title">AI Interview Coach</div>
+          <div class="feature-desc">Practice HR, technical, and behavioral rounds with an AI that gives real-time feedback, a confidence score, and personalized improvement suggestions after every session.</div>
+          
+        </div>
+        <div class="card-back">
+          <div class="back-title">✨ Action Preview</div>
+          <p class="back-desc">Simulates structural panel queries and tracks behavioral confidence metrics to master the precise phrasing of your return response.</p>
+          <span class="action-hint">Click to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="feature-card" onclick="toggleCard(this)">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="feature-icon">📊</div>
+          <div class="feature-title">Confidence Booster Dashboard</div>
+          <div class="feature-desc">Track courses completed, skills gained, and applications sent. Visualize your progress week by week — because seeing how far you've come matters.</div>
+          
+        </div>
+        <div class="card-back">
+          <div class="back-title">✨ Action Preview</div>
+          <p class="back-desc">Translates minor milestones into visual dashboard growth nodes so your daily effort registers as an explicit, functional asset track.</p>
+          <span class="action-hint">Click to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="feature-card" onclick="toggleCard(this)">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="feature-icon">🤝</div>
+          <div class="feature-title">Community & Mentorship</div>
+          <div class="feature-desc">Connect with mentors, career coaches, and other returnees who've been exactly where you are. A support ecosystem — not just a job board.</div>
+          
+        </div>
+        <div class="card-back">
+          <div class="back-title">✨ Action Preview</div>
+          <p class="back-desc">Brings you into regional and domain specific sub-groups where corporate allies open micro-referral channels directly for platform candidates.</p>
+          <span class="action-hint">Click to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 7 -->
+    <div class="feature-card" onclick="toggleCard(this)">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="feature-icon">🧠</div>
+          <div class="feature-title">Emotional Readiness Check</div>
+          <div class="feature-desc">A weekly micro-assessment that detects imposter syndrome patterns, stress signals, and confidence dips — then serves targeted affirmations and micro-wins.</div>
+          
+        </div>
+        <div class="card-back">
+          <div class="back-title">✨ Action Preview</div>
+          <p class="back-desc">Checks cognitive stress levels to counter returner fatigue, matching your mood state to supportive mental exercises.</p>
+          <span class="action-hint">Click to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 8 -->
+    <div class="feature-card" onclick="toggleCard(this)">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="feature-icon">⏱️</div>
+          <div class="feature-title">Break Duration Intelligence</div>
+          <div class="feature-desc">A 2-year break vs an 8-year break needs completely different advice. SafeHire's AI dynamically adjusts every recommendation based on your specific break length.</div>
+          
+        </div>
+        <div class="card-back">
+          <div class="back-title">✨ Action Preview</div>
+          <p class="back-desc">Calibrates baseline framework suggestions so someone returning after a multi-decade pause receives higher introductory scaffolding metrics.</p>
+          <span class="action-hint">Click to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW UNIQUE FEATURE CARD (Card 9) -->
+    <div class="feature-card" onclick="toggleCard(this)">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="feature-icon">🛠️</div>
+          <div class="feature-title">AI Skill Sandbox Simulator</div>
+          <div class="feature-desc">Unsure if your older tech stack or domain logic matches 2026 requirements? Drop in historical task drafts to upgrade legacy workflows into modern ecosystems instantly.</div>
+          
+        </div>
+        <div class="card-back">
+          <div class="back-title">✨ Action Preview</div>
+          <p class="back-desc">Processes text snippets or older project guidelines, explaining how shifts like generative AI components or updated frameworks fit into your portfolio.</p>
+          <span class="action-hint">Click to flip back</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="how-inner">
+    <div class="section-eyebrow">How it works</div>
+    <h2 class="section-title">From break to breakthrough<br/>in four steps</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title">Tell us your story</div>
+        <div class="step-desc">Share your previous role, break reason, duration, and where you want to go next.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title">AI analyzes your profile</div>
+        <div class="step-desc">Our model maps your skills, identifies gaps, and builds your personalized roadmap.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title">Practice and prepare</div>
+        <div class="step-desc">Use the interview coach, upskill with curated resources, and track your confidence score.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-title">Apply with confidence</div>
+        <div class="step-desc">Match with returnship-ready companies and apply with a resume and story that works for you.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SDG BANNER -->
+<section class="sdg-banner" id="sdg">
+  <div class="sdg-inner">
+    <div style="font-size: 0.8rem; font-weight: 600; color: var(--teal-200); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem;">Our Core Commitment</div>
+    <h2 class="sdg-title">Built for a world where career breaks don't define careers</h2>
+    <p class="sdg-desc">Millions of women leave the workforce for reasons beyond their control. SafeHire AI exists to make sure coming back is never harder than it should be — regardless of how long they were away or why they left.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to write your next chapter?</h2>
+  <p>Takes 3 minutes to set up. No resume required to start.</p>
+  <a href="onboarding.html" class="btn-primary">Start for free →</a>
+</section>
+
+<footer>
+  <p>SafeHire AI · Built for SheBuilds Chennai Hack · Code & Challenge 3.0</p>
+</footer>
+
+<script>
+  // Initial fill animation
+  setTimeout(() => {
+    const bar = document.getElementById('bar');
+    const pct = document.getElementById('pct');
+    if (bar) {
+      bar.style.width = '74%';
+      let n = 0;
+      const iv = setInterval(() => {
+        n++;
+        pct.textContent = n + '%';
+        if (n >= 74) clearInterval(iv);
+      }, 20);
+    }
+  }, 600);
+
+  // Flashcard Flip Functionality
+  function toggleCard(card) {
+    card.classList.toggle('flipped');
+  }
+
+  // Dark/Light Mode Theme Toggle
+  const themeToggle = document.getElementById('theme-toggle');
+  
+  // Check default preference or previous session local storage saved mode
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+  }
+
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    if (document.body.classList.contains('dark-mode')) {
+      localStorage.setItem('theme', 'dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
+  });
+</script>
 </body>
+</html>
+
