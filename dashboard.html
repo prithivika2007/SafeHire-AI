@@ -296,7 +296,7 @@ renderSkillTags();
 
 // ── AI CALLS ───────────────────────────────────────────────────
 const GEMINI_API_KEY = "AQ.Ab8RN6K65XT-867YZeobsOJsOneTe2L2tg7zT9rW-20kbYosFw";
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 const context = `Name: ${u.name||'User'}, Previous role: ${u.prevRole||'not specified'}, Industry: ${u.industry||'not specified'}, Break duration: ${u.breakDuration||'not specified'}, Break reasons: ${u.breakReasons||'not specified'}, Current skills: ${u.currentSkills||'not specified'}, Target role: ${u.targetRole||'not specified'}, Timeline: ${u.timeline||'not specified'}, Concerns: ${u.concerns||'not specified'}, Extra: ${u.extra||'none'}`;
 
 async function askgemini(prompt, resultId) {
