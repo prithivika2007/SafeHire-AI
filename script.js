@@ -2,7 +2,7 @@
 // (Live version of this logic runs inline inside dashboard.html)
 
 
-const GEMINI_API_KEY = "AQ.Ab8RN6K65XT-867YZeobsOJsOneTe2L2tg7zT9rW-20kbYosFw";
+const GEMINI_API_KEY = "ADD_YOUR_API_KEY";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 
