@@ -295,7 +295,7 @@ renderSkillBars();
 renderSkillTags();
 
 // ── AI CALLS ───────────────────────────────────────────────────
-const GEMINI_API_KEY = "AQ.Ab8RN6L_xz0PKAxYUUkNMJJ5qVY3ewRt0qFrW9XxR4P2zaN8kg";
+const GEMINI_API_KEY = "AQ.Ab8RN6K65XT-867YZeobsOJsOneTe2L2tg7zT9rW-20kbYosFw";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 const context = `Name: ${u.name||'User'}, Previous role: ${u.prevRole||'not specified'}, Industry: ${u.industry||'not specified'}, Break duration: ${u.breakDuration||'not specified'}, Break reasons: ${u.breakReasons||'not specified'}, Current skills: ${u.currentSkills||'not specified'}, Target role: ${u.targetRole||'not specified'}, Timeline: ${u.timeline||'not specified'}, Concerns: ${u.concerns||'not specified'}, Extra: ${u.extra||'none'}`;
 
@@ -313,9 +313,12 @@ async function askgemini(prompt, resultId) {
     const data = await response.json();
 
     if (!data.candidates) {
-      el.innerHTML = `<div class="result-content" style="color:var(--pink)">⚠️ ${data.error?.message || 'No response from AI'}</div>`;
-      return;
-    }
+    el.innerHTML = `
+    <div class="result-content">
+      AI insight temporarily unavailable. Please try again in a moment.
+    </div>`;
+  return;
+  }
 
     const answer = data.candidates[0].content.parts[0].text;
     el.innerHTML = `<div class="result-content">${answer.replace(/\n/g, '<br/>')}</div>`;
@@ -337,7 +340,7 @@ const calls = [
 ];
 
 calls.forEach((call, i) => {
-  setTimeout(call, i * 4000); // each call fires 4 seconds after the previous one
+  setTimeout(call, i * 8000); // each call fires 4 seconds after the previous one
 });
 
 </script>
