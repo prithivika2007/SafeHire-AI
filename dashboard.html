@@ -295,30 +295,51 @@ renderSkillBars();
 renderSkillTags();
 
 // ── AI CALLS ───────────────────────────────────────────────────
+const GEMINI_API_KEY = "AQ.Ab8RN6L_xz0PKAxYUUkNMJJ5qVY3ewRt0qFrW9XxR4P2zaN8kg";
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 const context = `Name: ${u.name||'User'}, Previous role: ${u.prevRole||'not specified'}, Industry: ${u.industry||'not specified'}, Break duration: ${u.breakDuration||'not specified'}, Break reasons: ${u.breakReasons||'not specified'}, Current skills: ${u.currentSkills||'not specified'}, Target role: ${u.targetRole||'not specified'}, Timeline: ${u.timeline||'not specified'}, Concerns: ${u.concerns||'not specified'}, Extra: ${u.extra||'none'}`;
 
-async function callClaude(prompt, resultId) {
+async function askgemini(prompt, resultId) {
   const el = document.getElementById(resultId);
   try {
-    const res = await fetch('http://localhost:3000/api/claude', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+    const response = await fetch(GEMINI_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }]
+      })
     });
-    const data = await res.json();
-    const text = data.content?.find(b => b.type === 'text')?.text || 'No response received.';
-    el.innerHTML = `<div class="result-content">${text.replace(/\n/g, '<br/>')}</div>`;
+
+    const data = await response.json();
+
+    if (!data.candidates) {
+      el.innerHTML = `<div class="result-content" style="color:var(--pink)">⚠️ ${data.error?.message || 'No response from AI'}</div>`;
+      return;
+    }
+
+    const answer = data.candidates[0].content.parts[0].text;
+    el.innerHTML = `<div class="result-content">${answer.replace(/\n/g, '<br/>')}</div>`;
+
   } catch (err) {
-    el.innerHTML = `<div class="result-content" style="color:var(--pink)">⚠️ ${err.message} — proxy server not running yet.</div>`;
+    el.innerHTML = `<div class="result-content" style="color:var(--pink)">⚠️ ${err.message}</div>`;
   }
+
 }
 
-callClaude(`Career counselor for women returning to work. Profile: ${context}. Identify top 5 skill gaps for their target role, suggest one specific resource per gap. Concise, actionable, plain text only.`, 'result-resume-gap');
-callClaude(`Career coach. Profile: ${context}. Create a step-by-step roadmap with 5-6 milestones and timeframes. Consider break duration. Motivating and specific. Plain text only.`, 'result-roadmap');
-callClaude(`Returnship specialist. Profile: ${context}. Recommend 5-6 companies with returnship programs suited to their background. For each: program name, roles covered, one application tip. Plain text only.`, 'result-returnship');
-callClaude(`AI interview coach for career returners. Profile: ${context}. Give: (1) 3 likely interview questions about their career break with ideal answer frameworks, (2) One confidence tip for their concerns. Practical and warm. Plain text only.`, 'result-interview');
-callClaude(`Emotional wellbeing coach for career re-entry. Profile: ${context}. Give: (1) Emotional challenges they likely face based on break and concerns, (2) One key mindset shift, (3) One confidence-building action this week. Empathetic and practical. Plain text only.`, 'result-emotional');
-callClaude(`Career re-entry specialist. Profile: ${context}. Based on their break duration of "${u.breakDuration||'unspecified'}": (1) How this break length affects re-entry, (2) What makes their situation unique, (3) Two strategies tailored to their exact break length. Plain text only.`, 'result-duration');
+const calls = [
+  () => askgemini(`Career counselor for women returning to work. Profile: ${context}. Identify top 5 skill gaps for their target role, suggest one specific resource per gap. Concise, actionable, plain text only.`, 'result-resume-gap'),
+  () => askgemini(`Career coach. Profile: ${context}. Create a step-by-step roadmap with 5-6 milestones and timeframes. Consider break duration. Motivating and specific. Plain text only.`, 'result-roadmap'),
+  () => askgemini(`Returnship specialist. Profile: ${context}. Recommend 5-6 companies with returnship programs suited to their background. For each: program name, roles covered, one application tip. Plain text only.`, 'result-returnship'),
+  () => askgemini(`AI interview coach for career returners. Profile: ${context}. Give: (1) 3 likely interview questions about their career break with ideal answer frameworks, (2) One confidence tip for their concerns. Practical and warm. Plain text only.`, 'result-interview'),
+  () => askgemini(`Emotional wellbeing coach for career re-entry. Profile: ${context}. Give: (1) Emotional challenges they likely face based on break and concerns, (2) One key mindset shift, (3) One confidence-building action this week. Empathetic and practical. Plain text only.`, 'result-emotional'),
+  () => askgemini(`Career re-entry specialist. Profile: ${context}. Based on their break duration of "${u.breakDuration||'unspecified'}": (1) How this break length affects re-entry, (2) What makes their situation unique, (3) Two strategies tailored to their exact break length. Plain text only.`, 'result-duration'),
+
+];
+
+calls.forEach((call, i) => {
+  setTimeout(call, i * 4000); // each call fires 4 seconds after the previous one
+});
+
 </script>
 </body>
 </html>

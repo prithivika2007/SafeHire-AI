@@ -1,18 +1,38 @@
-// script.js — placeholder for teammate
-// All AI logic is currently inline in dashboard.html
-// Teammate can refactor API calls into this file
+// script.js — reference/test file for SafeHire AI's core logic
+// (Live version of this logic runs inline inside dashboard.html)
 
-// Example structure for teammate:
-async function callClaudeAPI(prompt) {
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 1000,
-      messages: [{ role: 'user', content: prompt }]
-    })
-  });
-  const data = await response.json();
-  return data.content?.find(b => b.type === 'text')?.text || '';
+
+const GEMINI_API_KEY = "AQ.Ab8RN6L_xz0PKAxYUUkNMJJ5qVY3ewRt0qFrW9XxR4P2zaN8kg";
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+
+async function askgemini(prompt, resultId) {
+  const el = document.getElementById(resultId);
+  try {
+    const response = await fetch(GEMINI_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }]
+      })
+    });
+
+    const data = await response.json();
+
+    if (!data.candidates) {
+      el.innerHTML = `<div class="result-content" style="color:var(--pink)">⚠️ ${data.error?.message || 'No response from AI'}</div>`;
+      return;
+    }
+
+    const answer = data.candidates[0].content.parts[0].text;
+    el.innerHTML = `<div class="result-content">${answer.replace(/\n/g, '<br/>')}</div>`;
+
+  } catch (err) {
+    el.innerHTML = `<div class="result-content" style="color:var(--pink)">⚠️ ${err.message}</div>`;
+  }
+
 }
+
+//Quick test call
+askgemini("Explain about AI in a few lines");
+
